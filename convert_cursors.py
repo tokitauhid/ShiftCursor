@@ -7,21 +7,36 @@ from pathlib import Path
 # Common mapping from Windows cursor filenames (without extension) to Linux X11 names
 WINDOWS_TO_LINUX_MAP = {
     "arrow": ["left_ptr", "default", "arrow"],
+    "normal select": ["left_ptr", "default", "arrow"],
     "help": ["help", "question_arrow"],
+    "help select": ["help", "question_arrow"],
     "appstarting": ["left_ptr_watch", "half-busy"],
+    "working in background": ["left_ptr_watch", "half-busy"],
     "wait": ["watch", "wait", "busy"],
+    "busy": ["watch", "wait", "busy"],
     "cross": ["cross", "crosshair", "cross_reverse"],
+    "precision select": ["cross", "crosshair", "cross_reverse"],
     "ibeam": ["xterm", "text", "ibeam"],
+    "text select": ["xterm", "text", "ibeam"],
     "nwpen": ["pencil", "draft"],
+    "handwriting": ["pencil", "draft"],
     "no": ["crossed_circle", "not-allowed", "circle"],
+    "unavailable": ["crossed_circle", "not-allowed", "circle"],
     "sizens": ["sb_v_double_arrow", "size_ver", "n-resize", "s-resize", "ns-resize"],
+    "vertical resize": ["sb_v_double_arrow", "size_ver", "n-resize", "s-resize", "ns-resize"],
     "sizewe": ["sb_h_double_arrow", "size_hor", "e-resize", "w-resize", "ew-resize"],
+    "horizontal resize": ["sb_h_double_arrow", "size_hor", "e-resize", "w-resize", "ew-resize"],
     "sizenwse": ["size_fdiag", "nw-resize", "se-resize", "nwse-resize"],
+    "diagonal resize 1": ["size_fdiag", "nw-resize", "se-resize", "nwse-resize"],
     "sizenesw": ["size_bdiag", "ne-resize", "sw-resize", "nesw-resize"],
+    "diagonal resize 2": ["size_bdiag", "ne-resize", "sw-resize", "nesw-resize"],
     "sizeall": ["fleur", "size_all", "move"],
+    "move": ["fleur", "size_all", "move"],
     "uparrow": ["up_arrow", "center_ptr"],
+    "alternate select": ["up_arrow", "center_ptr"],
     "hand": ["pointer", "hand", "hand2", "link"],
     "link": ["pointer", "hand", "hand2", "link"],
+    "link select": ["pointer", "hand", "hand2", "link"],
     "pin": ["pin", "alias"],
     "person": ["person", "dnd-ask"]
 }
@@ -90,11 +105,12 @@ def main():
         if not generated_file.is_file():
             continue
             
-        base_name = generated_file.name.lower()
+        stem = generated_file.stem.lower()
         
         # Check if the generated file's original name matches any of our known windows names
         for win_name, linux_names in WINDOWS_TO_LINUX_MAP.items():
-            if win_name in base_name:
+            # Use exact match or common prefix/suffix handling to avoid substring overlap
+            if stem == win_name or stem.endswith(f"_{win_name}") or stem.endswith(f"-{win_name}"):
                 for linux_name in linux_names:
                     symlink_path = cursors_dir / linux_name
                     # If this name doesn't exist yet, link it to the converted file
