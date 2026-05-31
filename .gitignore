@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.venv/
 Test/
 test/
 my_initial_plan.md
