@@ -83,17 +83,22 @@ def main():
         print("Please install it by running: pip install win2xcur")
         sys.exit(1)
 
-    theme_name = f"{input_path.name}_linux"
-    output_path = input_path.parent / theme_name
+    base_theme_name = f"{input_path.name}_linux"
+    output_path = input_path.parent / base_theme_name
+
+    # If the folder already exists, append an incrementing number to avoid overwriting
+    if output_path.exists():
+        counter = 2
+        while (input_path.parent / f"{base_theme_name}_{counter}").exists():
+            counter += 1
+        output_path = input_path.parent / f"{base_theme_name}_{counter}"
+
+    theme_name = output_path.name
     cursors_dir = output_path / "cursors"
 
     print(f"\nOutput directory will be: {output_path}")
 
     # Create output directories
-    if output_path.exists():
-        print(f"Directory '{output_path.name}' already exists. Cleaning it up...")
-        shutil.rmtree(output_path)
-    
     cursors_dir.mkdir(parents=True, exist_ok=True)
 
     # Find all cursor files
