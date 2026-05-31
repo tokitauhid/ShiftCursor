@@ -1,5 +1,5 @@
 """
-SetCursor — Drag & Drop Zone Widget
+ShiftCursor — Drag & Drop Zone Widget
 
 Central drop zone with animated border, folder icon, and browse button.
 Accepts folder drops and emits a signal with the list of paths.

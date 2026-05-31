@@ -1,1 +1,1 @@
-# SetCursor Core - Conversion logic and background workers
+# ShiftCursor Core - Conversion logic and background workers

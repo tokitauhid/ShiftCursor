@@ -1,5 +1,5 @@
 """
-SetCursor — Main Window
+ShiftCursor — Main Window
 
 Assembles the drop zone, folder card list, and action bar into
 the main application window. Handles theme toggling and conversion orchestration.
@@ -25,15 +25,15 @@ from ui.resources import svg_to_pixmap, svg_to_icon
 
 
 # Settings file path
-SETTINGS_PATH = Path.home() / ".config" / "setcursor" / "settings.json"
+SETTINGS_PATH = Path.home() / ".config" / "shiftcursor" / "settings.json"
 
 
 class MainWindow(QMainWindow):
-    """Main application window for SetCursor."""
+    """Main application window for ShiftCursor."""
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SetCursor")
+        self.setWindowTitle("ShiftCursor")
         self.setMinimumSize(520, 460)
         self.resize(700, 620)
 
@@ -75,7 +75,7 @@ class MainWindow(QMainWindow):
         icon_label.setFixedSize(28, 28)
         title_bar_layout.addWidget(icon_label)
 
-        title = QLabel("SetCursor")
+        title = QLabel("ShiftCursor")
         title.setObjectName("title_label")
         title_bar_layout.addWidget(title)
 
@@ -332,7 +332,7 @@ class MainWindow(QMainWindow):
                 self,
                 "Missing Dependency",
                 "⚠️ 'win2xcur' is not installed.\n\n"
-                "SetCursor requires win2xcur to convert Windows cursors.\n\n"
+                "ShiftCursor requires win2xcur to convert Windows cursors.\n\n"
                 "Install it with:\n"
                 "  pip install win2xcur\n\n"
                 "Or on Arch Linux:\n"

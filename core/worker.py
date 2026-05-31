@@ -1,5 +1,5 @@
 """
-SetCursor — QThread Worker for Background Conversion
+ShiftCursor — QThread Worker for Background Conversion
 
 Runs cursor conversion in a background thread, emitting signals
 for progress updates to the GUI.

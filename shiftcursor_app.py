@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SetCursor — Windows to Linux Cursor Converter
+ShiftCursor — Windows to Linux Cursor Converter
 
 A Material Design 3-inspired PySide6 desktop application that converts
 Windows cursor themes (.cur/.ani) to Linux X11 format with an intuitive
@@ -25,9 +25,9 @@ def main():
     )
 
     app = QApplication(sys.argv)
-    app.setApplicationName("SetCursor")
-    app.setOrganizationName("SetCursor")
-    app.setApplicationDisplayName("SetCursor")
+    app.setApplicationName("ShiftCursor")
+    app.setOrganizationName("ShiftCursor")
+    app.setApplicationDisplayName("ShiftCursor")
 
     # Set application icon
     app.setWindowIcon(QIcon(svg_to_pixmap("mouse_pointer", color="#00BFA5", size=64)))

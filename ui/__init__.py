@@ -1,1 +1,1 @@
-# SetCursor UI - PySide6 GUI components
+# ShiftCursor UI - PySide6 GUI components

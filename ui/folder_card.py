@@ -1,5 +1,5 @@
 """
-SetCursor — Folder Card Widget
+ShiftCursor — Folder Card Widget
 
 Material Design 3 card showing a queued/converting/done folder with
 progress bar, status indicators, and expandable details.

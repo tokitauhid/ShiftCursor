@@ -1,5 +1,5 @@
 """
-SetCursor — Material Design 3 Theme System
+ShiftCursor — Material Design 3 Theme System
 
 Dark and light themes with teal/cyan primary and deep purple accent colors.
 """

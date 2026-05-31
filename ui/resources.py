@@ -1,5 +1,5 @@
 """
-SetCursor — SVG Icon Resources
+ShiftCursor — SVG Icon Resources
 
 Embedded SVG icons as Python strings. No external files needed.
 """

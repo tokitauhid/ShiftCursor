@@ -1,5 +1,5 @@
 """
-SetCursor — Core Converter Module
+ShiftCursor — Core Converter Module
 
 Refactored conversion logic from convert_cursors.py into an importable class
 with progress callbacks for GUI integration.
