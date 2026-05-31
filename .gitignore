@@ -1,4 +1,6 @@
+__pycache__/
+*.py[cod]
+*$py.class
 Test/
 test/
 my_initial_plan.md
-
