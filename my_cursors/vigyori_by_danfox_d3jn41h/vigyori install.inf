@@ -1,0 +1,57 @@
+; xFree cursors for Windows XP.
+; Win 2000/XP Alphablended Cursor Scheme installation file.
+
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur, Scheme.Txt
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+Scheme.Txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+arrow.cur
+help.cur
+work.ani
+busy.ani
+text.cur
+no.cur
+ns.cur
+ew.cur
+nwse.cur
+nesw.cur
+move.cur
+link.cur
+cross.cur
+pen.cur
+alt.cur
+
+[Scheme.Txt]
+Readme.txt
+
+[Strings]
+CUR_DIR       = "Cursors\Vigyori"
+SCHEME_NAME   = "Vigyori"
+pointer       = "arrow.cur"
+help          = "help.cur"
+work          = "work.ani"
+busy          = "busy.ani"
+text          = "text.cur"
+unavailiable  = "no.cur"
+vert          = "ns.cur"
+horz          = "ew.cur"
+dgn1          = "nwse.cur"
+dgn2          = "nesw.cur"
+move          = "move.cur"
+link          = "link.cur"
+cross         = "cross.cur"
+hand          = "pen.cur"
+alternate     = "alt.cur"

@@ -1,0 +1,57 @@
+;Night Diamond - Sapphire Blue v3.0 by TheBlueGuy07
+
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur, 
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+Scheme.Txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%Cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%Unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%,%10%\%CUR_DIR%\%pin%,%10%\%CUR_DIR%\%person%"
+
+; -- Common Information
+
+[Scheme.Cur]
+"[SB] Normal Select v3.0.ani"
+"[SB] Help Select v3.0.ani"
+"[SB] Working In Background v3.0.ani"
+"[SB] Busy v3.0.ani"
+"[SB] Precision Select v3.0.ani"
+"[SB] Text Select v3.0.ani"
+"[SB] Handwriting v3.0.ani"
+"[SB] Unavailable v3.0.ani"
+"[SB] Vertical Resize v3.0.ani"
+"[SB] Horizontal Resize v3.0.ani"
+"[SB] Diagonal Resize 1 v3.0.ani"
+"[SB] Diagonal Resize 2 v3.0.ani"
+"[SB] Move v3.0.ani"
+"[SB] Alternate Select v3.0.ani"
+"[SB] Link Select v3.0.ani"
+"[SB] Location Select v3.0.ani"
+"[SB] Person Select v3.0.ani"
+
+[Strings]
+CUR_DIR                    = "Cursors\Night Diamond - Sapphire Blue v3.0"
+SCHEME_NAME        = "Night Diamond - Sapphire Blue v3.0"
+pointer		= "[SB] Normal Select v3.0.ani"
+help		= "[SB] Help Select v3.0.ani"
+work		= "[SB] Working In Background v3.0.ani"
+busy		= "[SB] Busy v3.0.ani"
+cross		= "[SB] Precision Select v3.0.ani"
+text		= "[SB] Text Select v3.0.ani"
+hand		= "[SB] Handwriting v3.0.ani"
+unavailiable	= "[SB] Unavailable v3.0.ani"
+vert		= "[SB] Vertical Resize v3.0.ani"
+horz		= "[SB] Horizontal Resize v3.0.ani"
+dgn1		= "[SB] Diagonal Resize 1 v3.0.ani"
+dgn2		= "[SB] Diagonal Resize 2 v3.0.ani"
+move		= "[SB] Move v3.0.ani"
+alternate	                  = "[SB] Alternate Select v3.0.ani"
+link		= "[SB] Link Select v3.0.ani"
+pin		= "[SB] Location Select v3.0.ani"
+person		= "[SB] Person Select v3.0.ani"

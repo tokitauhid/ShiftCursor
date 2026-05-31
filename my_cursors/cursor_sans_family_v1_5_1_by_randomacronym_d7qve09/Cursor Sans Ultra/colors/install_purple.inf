@@ -1,0 +1,65 @@
+; To use right-click install.inf and select "install". Then go to Mouse Properties>Pointers and select the Cursor Sans Ultra scheme.
+; 
+[Version]
+signature="$Windows NT$"
+
+[DefaultInstall]
+CopyFiles = Scheme.cur, Scheme.txt
+AddReg    = Scheme.reg
+
+[DestinationDirs]
+Scheme.cur = 10,"%CUR_DIR%"
+Scheme.txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%unavailable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%dgn1%,%10%\%CUR_DIR%\%dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+arrow_ultra.cur
+arrow_ultra_green.cur
+arrow_ultra_magenta.cur
+arrow_ultra_orange.cur
+arrow_ultra_purple.cur
+arrow_ultra_red.cur
+beam.cur
+busy_ultra_green.ani
+busy_ultra_magenta.ani
+busy_ultra_orange.ani
+busy_ultra_purple.ani
+cross.cur
+diagonal_left_ultra.cur
+diagonal_right_ultra.cur
+install_green.inf
+install_magenta.inf
+install_orange.inf
+install_purple.inf
+left_right_ultra.cur
+move_ultra.cur
+pen_ultra.cur
+up_down_ultra.cur
+up_ultra.cur
+working_ultra_green.ani
+working_ultra_magenta.ani
+working_ultra_orange.ani
+working_ultra_purple.ani
+
+[Strings]
+CUR_DIR       = "Cursors\Cursor Sans Ultra"
+SCHEME_NAME   = "Cursor Sans Ultra Purple"
+pointer       = "arrow_ultra.cur"
+help          = "arrow_ultra_purple.cur"
+work          = "working_ultra_purple.ani"
+busy          = "busy_ultra_purple.ani"
+text          = "beam.cur"
+unavailable   = "arrow_ultra_red.cur"
+vert          = "up_down_ultra.cur"
+horz          = "left_right_ultra.cur"
+dgn1          = "diagonal_left_ultra.cur"
+dgn2          = "diagonal_right_ultra.cur"
+move          = "move_ultra.cur"
+link          = "arrow_ultra_purple.cur"
+cross         = "cross.cur"
+hand          = "pen_ultra.cur"
+alternate     = "up_ultra.cur"

@@ -1,0 +1,126 @@
+DIM: Fully Animated Cursor Set by BlueGuy
+
+Please Download or Purchase only on my Official DeviantArt page: www. deviantart.com/blooguy to have access to future updates for free.
+
+Add me to your watchlists to get notifications!
+
+
+
+CURRENT VERSION: v4
+
+UPDATE LOG:
+
+-------------------
+v4 - Mar 27, 2021
+-------------------
+
+GENERAL:
+- Reduced size by 6%.
+- Graphic enhancements.
+- Slightly tilted to the right.
+- Added 20+ new bonus cursors.
+- Added a faint extra gloss on the texture.
+- Animation enhancements; animations are now faster and snappier.
+- Reduced pause time with states with a short pause at the end of animations.
+- A "Pointing Hand" variation for the link select is now available.
+- A "Loop" variations are now available for select states.
+- DIM is now available in 32 and 48 px format. 32 is the default for 100%-125% scale, and 48 for beyond 150%.
+- Updated the installer file (.inf). Now it will also copy the "Bonus Cursors" folder in the installation directory (C:\Windows\Cursors). No need to do it manually.
+- Shortened cursors and folder names to prevent errors concerning Windows "File location" character limit. These errors usually make some cursor file unselectable or the thumbnails not loading in the File Explorer.
+- Due to Windows' 1809 update bug still unpatched by Microsoft, the default "Normal" is temporarily set to a non-animated (.cur) variation to prevent the glitch bug. The classic animated is still available inside the "Bonus Cursors" folder. Alternatively, if you want all of the states to be animated, use the new "Loop" variations inside the Bonus Cursors folder.
+- Updated the image guide on how to use bonus cursors.
+- Added additional states for the "Statics" set.
+- Removed some bonus cursors.
+- Changed the defaults.
+
+PREMIUM:
+- Added 45+ new bonus cursors (TechnoBlue, NitroGreen, and InfraRed).
+- Added 80+ new bonus cursors (Prismatic).
+- Added glow for the default 3D link select.
+- The Free version is also now included along with the Premium Content download.
+
+
+-------------------
+v3.2 - Oct 20, 2018
+-------------------
+
+GENERAL:
+- Added 1 bonus cursor: "Link Select - Stream".
+
+PREMIUM:
+- Added exclusive "DIM Prismatic Version" for the premium set.
+- Made the glow for the default "Precision Select" thicker.
+- Included "Location Select" in the "Statics" set.
+
+
+-------------------
+v3.1 - Jan 17, 2018
+-------------------
+
+GENERAL:
+- Tweaked the speed of some animation.
+- Increased outline for the default "Alternate Select", and "Handwriting".
+- Added 1 bonus cursor: "Link Select - Burst".
+- Added 2 new cursors for the "Windows 10's Fall Creators" Update; "Location Select" and "Person Select". 
+- Added "Statics" folder. A non-animated set is now available.  
+- Improved the tutorial on how to use bonus cursors.
+- Re-arranged the elements for the default "Working in Background", default "Busy", default "Help Select", "Busy - Glow Disc", "Busy - Orbs", "Working in Background - Glow Disc", and "Working in Background - Orbs". The elements don't touch each other anymore.
+- Improved the animation of "Normal Select - Permanent Glow".
+
+PREMIUM:
+- Re-arranged the elements for the default "Help Select", "Busy-Glow Disc (Glossed)", "Busy-Quarter Disc", "Working in Background-Glow Disc (Glossed)", and "Working in Background-Quarter Disc". The elements don't touch each other anymore.
+- Increased outline for the default "Alternate Select", and "Handwriting".
+- Added outline for "Text Select-Needle".
+- Removed a bonus cursor.
+- Added 2 new bonus cursors: "Busy - Tron", and "Working in Background - Tron".
+
+
+-------------------
+v3.0 - Dec 16, 2015
+-------------------
+
+- DIM is now 10% smaller.
+- Increased the width of the glowing lines a bit.
+- Added new bonus cursors: Busy - Time, Busy - Colored Glitch, and more!
+- Improved "Text Select - Transparent" visibility.
+- Changed the defaults.
+- Added color variations (NitroGreen and InfraRed).
+
+
+-------------------
+v2.0.1 - Aug 10, 2015
+-------------------
+
+- Added 2 bonus cursors: "Normal Select-Static" and "Normal Select-No Pulse".
+
+
+-------------------
+v2.0 - Jul 19, 2015
+-------------------
+
+- Size shrunk by a few pixels.
+- Increased the width of the glowing lines.
+- Now darker.
+- Added gloss.
+- Tweaked the animation speed.
+- Removed the built-in shadow.
+- Some bonus files are removed.
+- Added a bunch of new bonus files.
+- Added 3D variation (Premium).
+- Changed the defaults.
+- Added optional premium pack.
+
+
+-------------------
+ v1.2 - Jun 12, 2015
+-------------------
+
+- Reduced the drop shadow opacity.
+- Added bonus cursors.
+
+
+-------------------
+v1.0 - May 21, 2013
+-------------------
+
+- Released.

@@ -1,0 +1,67 @@
+; To use right-click install.inf and select "install". Then go to Mouse Properties>Pointers and select the Cursor Sans Bold scheme.
+; 
+[Version]
+signature="$Windows NT$"
+
+[DefaultInstall]
+CopyFiles = Scheme.cur, Scheme.txt
+AddReg    = Scheme.reg
+
+[DestinationDirs]
+Scheme.cur = 10,"%CUR_DIR%"
+Scheme.txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%unavailable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%dgn1%,%10%\%CUR_DIR%\%dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%"
+
+; -- Common Information
+
+[Scheme.Cur]
+arrow_bold.cur
+arrow_bold_blue.cur
+arrow_bold_orange.cur
+arrow_bold_purple.cur
+arrow_bold_red.cur
+arrow_bold_red_dark.cur
+beam.cur
+busy_bold.ani
+busy_bold_dark.ani
+busy_bold_orange.ani
+busy_bold_purple.ani
+busy_bold_red.ani
+Cross.cur
+install.inf
+install_orange.inf
+install_purple.inf
+install_red.inf
+left_right_bold.cur
+move.cur
+pen_bold.cur
+top_left_bold.cur
+top_right_bold.cur
+up_bold.cur
+up_down_bold.cur
+working_bold.ani
+working_bold_dark.ani
+working_bold_orange.ani
+Working_bold_purple.ani
+working_bold_red.ani
+
+[Strings]
+CUR_DIR       = "Cursors\Cursor Sans Bold"
+SCHEME_NAME   = "Cursor Sans Bold Orange"
+pointer       = "arrow_bold.cur"
+help          = "arrow_bold_orange.cur"
+work          = "working_bold_orange.ani"
+busy          = "busy_bold_orange.ani"
+text          = "beam.cur"
+unavailable   = "arrow_bold_red.cur"
+vert          = "up_down_bold.cur"
+horz          = "left_right_bold.cur"
+dgn1          = "top_left_bold.cur"
+dgn2          = "top_right_bold.cur"
+move          = "move.cur"
+link          = "arrow_bold_orange.cur"
+cross         = "cross.cur"
+hand          = "pen_bold.cur"
+alternate     = "up_bold.cur"

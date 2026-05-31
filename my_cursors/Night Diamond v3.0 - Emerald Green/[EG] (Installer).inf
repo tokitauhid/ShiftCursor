@@ -1,0 +1,57 @@
+;Night Diamond - Emerald Green v3.0 by TheBlueGuy07
+
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur, 
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10,"%CUR_DIR%"
+Scheme.Txt = 10,"%CUR_DIR%"
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEME_NAME%",,"%10%\%CUR_DIR%\%pointer%,%10%\%CUR_DIR%\%help%,%10%\%CUR_DIR%\%work%,%10%\%CUR_DIR%\%busy%,%10%\%CUR_DIR%\%Cross%,%10%\%CUR_DIR%\%Text%,%10%\%CUR_DIR%\%Hand%,%10%\%CUR_DIR%\%Unavailiable%,%10%\%CUR_DIR%\%Vert%,%10%\%CUR_DIR%\%Horz%,%10%\%CUR_DIR%\%Dgn1%,%10%\%CUR_DIR%\%Dgn2%,%10%\%CUR_DIR%\%move%,%10%\%CUR_DIR%\%alternate%,%10%\%CUR_DIR%\%link%,%10%\%CUR_DIR%\%pin%,%10%\%CUR_DIR%\%person%"
+
+; -- Common Information
+
+[Scheme.Cur]
+"[EG] Normal Select v3.0.ani"
+"[EG] Help Select v3.0.ani"
+"[EG] Working In Background v3.0.ani"
+"[EG] Busy v3.0.ani"
+"[EG] Precision Select v3.0.ani"
+"[EG] Text Select v3.0.ani"
+"[EG] Handwriting v3.0.ani"
+"[EG] Unavailable v3.0.ani"
+"[EG] Vertical Resize v3.0.ani"
+"[EG] Horizontal Resize v3.0.ani"
+"[EG] Diagonal Resize 1 v3.0.ani"
+"[EG] Diagonal Resize 2 v3.0.ani"
+"[EG] Move v3.0.ani"
+"[EG] Alternate Select v3.0.ani"
+"[EG] Link Select v3.0.ani"
+"[EG] Location Select v3.0.ani"
+"[EG] Person Select v3.0.ani"
+
+[Strings]
+CUR_DIR                    = "Cursors\Night Diamond - Emerald Green v3.0"
+SCHEME_NAME        = "Night Diamond - Emerald Green v3.0"
+pointer		= "[EG] Normal Select v3.0.ani"
+help		= "[EG] Help Select v3.0.ani"
+work		= "[EG] Working In Background v3.0.ani"
+busy		= "[EG] Busy v3.0.ani"
+cross		= "[EG] Precision Select v3.0.ani"
+text		= "[EG] Text Select v3.0.ani"
+hand		= "[EG] Handwriting v3.0.ani"
+unavailiable	= "[EG] Unavailable v3.0.ani"
+vert		= "[EG] Vertical Resize v3.0.ani"
+horz		= "[EG] Horizontal Resize v3.0.ani"
+dgn1		= "[EG] Diagonal Resize 1 v3.0.ani"
+dgn2		= "[EG] Diagonal Resize 2 v3.0.ani"
+move		= "[EG] Move v3.0.ani"
+alternate	                  = "[EG] Alternate Select v3.0.ani"
+link		= "[EG] Link Select v3.0.ani"
+pin		= "[EG] Location Select v3.0.ani"
+person		= "[EG] Person Select v3.0.ani"
