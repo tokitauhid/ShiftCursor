@@ -1,0 +1,159 @@
+name: Build AppImage & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-appimage:
+    name: Build AppImage
+    runs-on: ubuntu-22.04
+
+    steps:
+      # ── Checkout with full history (needed for changelog generation) ──
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── Python setup ──
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install PySide6 win2xcur pyinstaller
+
+      # ── Install system packages needed for Qt offscreen rendering ──
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libxkbcommon0 \
+            libxcb-cursor0 \
+            libxcb-icccm4 \
+            libxcb-keysyms1 \
+            libxcb-shape0 \
+            libgl1-mesa-glx \
+            libegl1 \
+            libfuse2
+
+      # ── Build standalone binary with PyInstaller ──
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller \
+            --name ShiftCursor \
+            --windowed \
+            --onedir \
+            --noconfirm \
+            --clean \
+            --hidden-import PySide6.QtSvg \
+            shiftcursor_app.py
+
+      # ── Create AppDir structure ──
+      - name: Assemble AppDir
+        run: |
+          mkdir -p ShiftCursor.AppDir/usr/bin
+          mkdir -p ShiftCursor.AppDir/usr/share/applications
+          mkdir -p ShiftCursor.AppDir/usr/share/icons/hicolor/256x256/apps
+
+          # Copy the entire PyInstaller output into usr/bin
+          cp -r dist/ShiftCursor/* ShiftCursor.AppDir/usr/bin/
+
+          # Copy the desktop file
+          cp shiftcursor.desktop ShiftCursor.AppDir/usr/share/applications/shiftcursor.desktop
+
+          # Generate a 256x256 app icon from the embedded SVG
+          QT_QPA_PLATFORM=offscreen python3 -c "
+          import sys
+          from PySide6.QtWidgets import QApplication
+          from PySide6.QtCore import Qt
+          app = QApplication(sys.argv)
+          from ui.resources import svg_to_pixmap
+          pm = svg_to_pixmap('mouse_pointer', color='#00BFA5', size=256)
+          pm.save('ShiftCursor.AppDir/usr/share/icons/hicolor/256x256/apps/shiftcursor.png')
+          app.quit()
+          "
+
+          # AppImage requires desktop + icon at the root of AppDir
+          cp ShiftCursor.AppDir/usr/share/applications/shiftcursor.desktop ShiftCursor.AppDir/shiftcursor.desktop
+          cp ShiftCursor.AppDir/usr/share/icons/hicolor/256x256/apps/shiftcursor.png ShiftCursor.AppDir/shiftcursor.png
+
+          # Create the AppRun entry point
+          cat > ShiftCursor.AppDir/AppRun << 'APPRUN'
+          #!/bin/bash
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          export PATH="${HERE}/usr/bin:${PATH}"
+          export LD_LIBRARY_PATH="${HERE}/usr/bin:${LD_LIBRARY_PATH}"
+          exec "${HERE}/usr/bin/ShiftCursor" "$@"
+          APPRUN
+          chmod +x ShiftCursor.AppDir/AppRun
+
+      # ── Package as AppImage ──
+      - name: Download appimagetool
+        run: |
+          wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      - name: Build AppImage
+        run: |
+          ARCH=x86_64 APPIMAGE_EXTRACT_AND_RUN=1 \
+            ./appimagetool-x86_64.AppImage ShiftCursor.AppDir \
+            ShiftCursor-${{ github.ref_name }}-x86_64.AppImage
+
+      # ── Generate changelog from commit messages ──
+      - name: Generate changelog
+        id: changelog
+        run: |
+          CURRENT_TAG="${GITHUB_REF_NAME}"
+
+          # Find the previous tag (the one before the current)
+          PREV_TAG=$(git tag --sort=-v:refname | grep -A1 "^${CURRENT_TAG}$" | tail -n1)
+
+          # If there's no previous tag or it's the same, use all commits
+          if [ -z "$PREV_TAG" ] || [ "$PREV_TAG" = "$CURRENT_TAG" ]; then
+            echo "First release — including all commits."
+            COMMITS=$(git log --pretty=format:"- %s (\`%h\`)" --no-merges)
+          else
+            echo "Generating changelog: ${PREV_TAG}..${CURRENT_TAG}"
+            COMMITS=$(git log --pretty=format:"- %s (\`%h\`)" --no-merges "${PREV_TAG}..${CURRENT_TAG}")
+          fi
+
+          {
+            echo "## 🖱️ ShiftCursor ${CURRENT_TAG}"
+            echo ""
+            echo "### What's Changed"
+            echo ""
+            echo "$COMMITS"
+            echo ""
+            echo "---"
+            echo ""
+            echo "### Installation"
+            echo ""
+            echo "1. Download \`ShiftCursor-${CURRENT_TAG}-x86_64.AppImage\` below"
+            echo "2. Make it executable: \`chmod +x ShiftCursor-*.AppImage\`"
+            echo "3. Run it! You also need [\`win2xcur\`](https://github.com/nicman23/win2xcur) installed (\`pip install win2xcur\`)"
+            echo ""
+            if [ -n "$PREV_TAG" ] && [ "$PREV_TAG" != "$CURRENT_TAG" ]; then
+              echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${CURRENT_TAG}"
+            fi
+          } > changelog.md
+
+          cat changelog.md
+
+      # ── Create GitHub Release ──
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: changelog.md
+          files: ShiftCursor-${{ github.ref_name }}-x86_64.AppImage
+          draft: false
+          prerelease: false

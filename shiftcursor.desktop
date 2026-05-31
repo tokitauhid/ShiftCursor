@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=ShiftCursor
+GenericName=Cursor Converter
+Comment=Convert Windows cursor themes to Linux X11 format
+Exec=ShiftCursor
+Icon=shiftcursor
+Terminal=false
+Type=Application
+Categories=Utility;Graphics;
+Keywords=cursor;theme;windows;linux;convert;
+StartupNotify=true
