@@ -55,18 +55,8 @@ jobs:
             --noconfirm \
             --clean \
             --hidden-import PySide6.QtSvg \
+            --hidden-import win2xcur \
             shiftcursor_app.py
-
-      - name: Build win2xcur binary
-        run: |
-          # Bundle win2xcur as a standalone binary so the AppImage is self-contained
-          WIN2XCUR_SCRIPT=$(which win2xcur)
-          pyinstaller \
-            --name win2xcur \
-            --onefile \
-            --noconfirm \
-            --clean \
-            "$WIN2XCUR_SCRIPT"
 
       # ── Create AppDir structure ──
       - name: Assemble AppDir
@@ -77,9 +67,6 @@ jobs:
 
           # Copy the entire PyInstaller output into usr/bin
           cp -r dist/ShiftCursor/* ShiftCursor.AppDir/usr/bin/
-
-          # Copy the bundled win2xcur binary so conversions work without external deps
-          cp dist/win2xcur ShiftCursor.AppDir/usr/bin/win2xcur
 
           # Copy the desktop file
           cp shiftcursor.desktop ShiftCursor.AppDir/usr/share/applications/shiftcursor.desktop

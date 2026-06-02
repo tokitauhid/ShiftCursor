@@ -14,6 +14,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Optional
 
+from win2xcur.parser import open_blob
+from win2xcur.writer import to_x11
+
 
 # Common mapping from Windows cursor filenames (without extension) to Linux X11 names
 WINDOWS_TO_LINUX_MAP = {
@@ -109,47 +112,18 @@ class CursorConverter:
 
     def __init__(self):
         self._cancelled = False
-        self._win2xcur_path = self._find_win2xcur()
 
     def cancel(self):
         """Request cancellation of the current conversion."""
         self._cancelled = True
 
-    @staticmethod
-    def _find_win2xcur() -> str | None:
-        """
-        Locate the win2xcur binary.
-
-        Resolution order:
-        1. Next to the frozen executable (PyInstaller --onedir puts the main
-           binary in e.g. AppDir/usr/bin/ alongside win2xcur).
-        2. The APPDIR environment variable set by AppImage AppRun
-           (APPDIR/usr/bin/win2xcur).
-        3. Standard PATH lookup via shutil.which().
-        """
-        candidates: list[Path] = []
-
-        # When frozen by PyInstaller, sys.executable points to the real binary
-        # (e.g. …/usr/bin/ShiftCursor). win2xcur sits right next to it.
-        if getattr(sys, 'frozen', False):
-            exe_dir = Path(sys.executable).resolve().parent
-            candidates.append(exe_dir / "win2xcur")
-
-        # APPDIR is set by the AppRun script inside every AppImage
-        appdir = os.environ.get("APPDIR")
-        if appdir:
-            candidates.append(Path(appdir) / "usr" / "bin" / "win2xcur")
-
-        for candidate in candidates:
-            if candidate.is_file() and os.access(candidate, os.X_OK):
-                return str(candidate)
-
-        # Fall back to system PATH
-        return shutil.which("win2xcur")
-
     def check_win2xcur(self) -> bool:
-        """Check if win2xcur is installed and available."""
-        return self._win2xcur_path is not None
+        """Check if win2xcur is available. Always True since it is imported."""
+        try:
+            import win2xcur
+            return True
+        except ImportError:
+            return False
 
     @staticmethod
     def read_inf_file(inf_path: Path) -> str:
@@ -271,11 +245,6 @@ class CursorConverter:
             return result
 
         # Convert each file
-        if not self._win2xcur_path:
-            result.success = False
-            result.error_message = "win2xcur binary not found"
-            return result
-
         for i, cursor_file in enumerate(cursor_files):
             if self._cancelled:
                 result.error_message = "Conversion cancelled"
@@ -286,15 +255,17 @@ class CursorConverter:
                 on_progress(i, len(cursor_files), cursor_file.name)
 
             try:
-                proc = subprocess.run(
-                    [self._win2xcur_path, str(cursor_file), "-o", str(cursors_dir)],
-                    capture_output=True,
-                    text=True,
-                )
-                if proc.returncode != 0:
-                    result.failed_count += 1
-                else:
-                    result.converted_count += 1
+                with open(cursor_file, 'rb') as f:
+                    blob = f.read()
+                
+                cursor = open_blob(blob)
+                x11_data = to_x11(cursor.frames)
+                
+                output_file = cursors_dir / cursor_file.stem.lower()
+                with open(output_file, 'wb') as f:
+                    f.write(x11_data)
+                
+                result.converted_count += 1
             except Exception:
                 result.failed_count += 1
 
