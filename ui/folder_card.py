@@ -5,14 +5,13 @@ Material Design 3 card showing a queued/converting/done folder with
 progress bar, status indicators, and expandable details.
 """
 
-import subprocess
 from enum import Enum
 from pathlib import Path
 
 from PySide6.QtCore import (
-    Qt, Signal, QPropertyAnimation, QEasingCurve, Property, QSize
+    Qt, Signal, QPropertyAnimation, QEasingCurve, Property, QSize, QUrl
 )
-from PySide6.QtGui import QCursor
+from PySide6.QtGui import QCursor, QDesktopServices
 from PySide6.QtWidgets import (
     QFrame, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QProgressBar, QSizePolicy, QWidget,
@@ -272,7 +271,4 @@ class FolderCard(QFrame):
     def _on_open_folder(self):
         """Open the output folder in the file manager."""
         if self.result and self.result.output_path.exists():
-            try:
-                subprocess.Popen(["xdg-open", str(self.result.output_path)])
-            except Exception:
-                pass
+            QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.result.output_path)))

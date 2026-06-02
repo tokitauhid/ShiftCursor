@@ -49,18 +49,34 @@ The app features a sleek drag-and-drop interface with real-time conversion progr
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Option A: Download the AppImage (easiest)
+
+No installation needed — everything is bundled.
+
+1. **Download** the latest `ShiftCursor-*.AppImage` from [Releases](https://github.com/tokitauhid/ShiftCursor/releases).
+2. **Make it executable:**
+   ```bash
+   chmod +x ShiftCursor-*.AppImage
+   ```
+3. **Run it:**
+   ```bash
+   ./ShiftCursor-*.AppImage
+   ```
+
+### Option B: Run from source
+
+#### Prerequisites
 
 - **Python 3.10+**
 - **Linux** (GNOME, KDE, XFCE, or any desktop using X11/Xcursor themes)
-- **[win2xcur](https://github.com/nicman23/win2xcur)** — the engine that does the actual cursor format conversion
+- **ImageMagick** — required by `win2xcur` at runtime (`sudo apt install libmagickwand-dev` or `sudo pacman -S imagemagick`)
 
-### Installation
+#### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/shiftcursor.git
-   cd shiftcursor
+   git clone https://github.com/tokitauhid/ShiftCursor.git
+   cd ShiftCursor
    ```
 
 2. **Create a virtual environment (recommended):**
@@ -74,13 +90,13 @@ The app features a sleek drag-and-drop interface with real-time conversion progr
    pip install PySide6 win2xcur
    ```
 
-### Run the GUI
+#### Run the GUI
 
 ```bash
 python shiftcursor_app.py
 ```
 
-### Run the CLI
+#### Run the CLI
 
 ```bash
 python convert_cursors.py /path/to/windows/cursor/folder
@@ -108,9 +124,11 @@ python convert_cursors.py /path/to/windows/cursor/folder
 ## 📁 Project Structure
 
 ```
-shiftcursor/
-├── shiftcursor_app.py       # GUI entry point
+ShiftCursor/
+├── shiftcursor_app.py        # GUI entry point
 ├── convert_cursors.py        # Standalone CLI converter
+├── build_appimage.sh         # Local AppImage build script (for testing)
+├── shiftcursor.desktop       # FreeDesktop .desktop file for AppImage
 ├── core/
 │   ├── converter.py          # Core conversion engine & name mapping logic
 │   └── worker.py             # Threaded worker for non-blocking GUI conversions
@@ -120,6 +138,8 @@ shiftcursor/
 │   ├── folder_card.py        # Per-folder progress card with state machine
 │   ├── theme.py              # Dark/light Material Design 3 color tokens & stylesheet
 │   └── resources.py          # SVG icon generation utilities
+├── .github/workflows/
+│   └── release.yml           # CI: build AppImage & publish GitHub Release on tag push
 └── my_cursors/               # Collection of Windows cursor themes (not tracked)
 ```
 
@@ -162,6 +182,35 @@ ShiftCursor maps the following Windows cursors to their Linux equivalents:
 **Secondary aliases** are also created: `context-menu`, `copy`, `dnd-copy`, `cell`, `vertical-text`, `zoom-in`, `zoom-out`, `pirate`
 
 </details>
+
+---
+
+## 🏗️ Building the AppImage
+
+Want to build the AppImage locally for testing or development?
+
+### Prerequisites
+
+- All [run-from-source](#option-b-run-from-source) dependencies
+- **PyInstaller:** `pip install pyinstaller`
+- **ImageMagick:** system library installed (`libmagickwand-dev` / `imagemagick`)
+
+### Build
+
+```bash
+./build_appimage.sh
+```
+
+The script will:
+1. Activate the `.venv/` virtual environment
+2. Locate and stage ImageMagick shared libraries (with proper symlinks)
+3. Build a standalone binary with PyInstaller
+4. Assemble the AppDir structure
+5. Run a smoke test
+6. Package into `ShiftCursor-test-x86_64.AppImage`
+
+> **Note:** On first run, the script downloads `appimagetool` (~15 MB) automatically.
+
 
 ---
 
