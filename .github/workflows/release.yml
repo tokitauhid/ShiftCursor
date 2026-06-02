@@ -48,25 +48,58 @@ jobs:
 
       # ── Locate ImageMagick shared libraries for bundling ──
       - name: Locate ImageMagick libraries
-        id: magick_libs
         run: |
-          # Find all libMagickWand and libMagickCore .so files
-          MAGICK_BINARIES=""
-          for lib in libMagickWand libMagickCore; do
-            for path in $(ldconfig -p | grep "$lib" | awk '{print $NF}' | sort -u); do
-              if [ -f "$path" ]; then
-                # Resolve symlinks to get the real file
-                real_path=$(readlink -f "$path")
-                MAGICK_BINARIES="$MAGICK_BINARIES --add-binary $real_path:."
-                echo "Found: $real_path"
+          # Collect real .so files + versioned/unversioned symlinks into a staging dir
+          mkdir -p magick_libs_staging
+
+          for lib_base in libMagickWand libMagickCore; do
+            # Copy every registered path from ldconfig
+            for so_path in $(ldconfig -p | grep "$lib_base" | awk '{print $NF}' | sort -u); do
+              if [ -f "$so_path" ]; then
+                real_path=$(readlink -f "$so_path")
+                base_name=$(basename "$so_path")
+                real_name=$(basename "$real_path")
+
+                # Copy the real file
+                if [ ! -f "magick_libs_staging/$real_name" ]; then
+                  cp "$real_path" "magick_libs_staging/$real_name"
+                  echo "Copied: $real_name"
+                fi
+
+                # Create symlink if the registered name differs
+                if [ "$base_name" != "$real_name" ] && [ ! -e "magick_libs_staging/$base_name" ]; then
+                  ln -s "$real_name" "magick_libs_staging/$base_name"
+                  echo "Symlink: $base_name -> $real_name"
+                fi
+              fi
+            done
+
+            # Create unversioned .so symlinks (wand's MAGICK_HOME search needs these)
+            for f in magick_libs_staging/${lib_base}-*.so.*; do
+              [ -f "$f" ] || continue
+              fname=$(basename "$f")
+              unversioned=$(echo "$fname" | sed 's/\.so\..*/\.so/')
+              if [ ! -e "magick_libs_staging/$unversioned" ]; then
+                ln -s "$fname" "magick_libs_staging/$unversioned"
+                echo "Symlink: $unversioned -> $fname"
               fi
             done
           done
-          echo "magick_flags=$MAGICK_BINARIES" >> "$GITHUB_OUTPUT"
+
+          echo "Staged libraries:"
+          ls -la magick_libs_staging/
 
       # ── Build standalone binaries with PyInstaller ──
       - name: Build ShiftCursor with PyInstaller
         run: |
+          # Build --add-binary flags for each file/symlink in staging dir
+          MAGICK_ADD_BINARIES=""
+          for f in magick_libs_staging/*; do
+            if [ -f "$f" ] || [ -L "$f" ]; then
+              MAGICK_ADD_BINARIES="$MAGICK_ADD_BINARIES --add-binary $f:_magick_libs"
+            fi
+          done
+
           pyinstaller \
             --name ShiftCursor \
             --windowed \
@@ -76,7 +109,7 @@ jobs:
             --hidden-import PySide6.QtSvg \
             --hidden-import win2xcur \
             --collect-all wand \
-            ${{ steps.magick_libs.outputs.magick_flags }} \
+            $MAGICK_ADD_BINARIES \
             shiftcursor_app.py
 
       # ── Create AppDir structure ──
@@ -88,6 +121,20 @@ jobs:
 
           # Copy the entire PyInstaller output into usr/bin
           cp -r dist/ShiftCursor/* ShiftCursor.AppDir/usr/bin/
+
+          # Move _magick_libs into magick_home/lib/ where wand expects them
+          # (wand searches ${MAGICK_HOME}/lib/libMagickWand*.so)
+          mkdir -p ShiftCursor.AppDir/usr/bin/magick_home/lib
+          if [ -d ShiftCursor.AppDir/usr/bin/_magick_libs ]; then
+            cp -a ShiftCursor.AppDir/usr/bin/_magick_libs/* ShiftCursor.AppDir/usr/bin/magick_home/lib/
+            rm -rf ShiftCursor.AppDir/usr/bin/_magick_libs
+          elif [ -d ShiftCursor.AppDir/usr/bin/_internal/_magick_libs ]; then
+            cp -a ShiftCursor.AppDir/usr/bin/_internal/_magick_libs/* ShiftCursor.AppDir/usr/bin/magick_home/lib/
+            rm -rf ShiftCursor.AppDir/usr/bin/_internal/_magick_libs
+          fi
+
+          echo "Bundled ImageMagick libraries:"
+          ls -la ShiftCursor.AppDir/usr/bin/magick_home/lib/
 
           # Copy the desktop file
           cp shiftcursor.desktop ShiftCursor.AppDir/usr/share/applications/shiftcursor.desktop
@@ -114,8 +161,8 @@ jobs:
           SELF=$(readlink -f "$0")
           HERE=${SELF%/*}
           export PATH="${HERE}/usr/bin:${PATH}"
-          export LD_LIBRARY_PATH="${HERE}/usr/bin:${LD_LIBRARY_PATH}"
-          export MAGICK_HOME="${HERE}/usr/bin"
+          export LD_LIBRARY_PATH="${HERE}/usr/bin/magick_home/lib:${HERE}/usr/bin:${LD_LIBRARY_PATH}"
+          export MAGICK_HOME="${HERE}/usr/bin/magick_home"
           exec "${HERE}/usr/bin/ShiftCursor" "$@"
           APPRUN
           chmod +x ShiftCursor.AppDir/AppRun

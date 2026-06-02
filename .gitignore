@@ -5,3 +5,12 @@ __pycache__/
 Test/
 test/
 my_initial_plan.md
+
+# AppImage build artifacts
+build/
+dist/
+*.spec
+*.AppDir/
+*.AppImage
+appimagetool-x86_64.AppImage
+magick_libs_*/
