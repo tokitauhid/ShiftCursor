@@ -43,7 +43,8 @@ jobs:
             libxcb-shape0 \
             libgl1-mesa-glx \
             libegl1 \
-            libfuse2
+            libfuse2 \
+            libmagickwand-dev
 
       # ── Build standalone binaries with PyInstaller ──
       - name: Build ShiftCursor with PyInstaller
@@ -56,6 +57,7 @@ jobs:
             --clean \
             --hidden-import PySide6.QtSvg \
             --hidden-import win2xcur \
+            --collect-all wand \
             shiftcursor_app.py
 
       # ── Create AppDir structure ──
