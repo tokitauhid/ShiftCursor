@@ -46,6 +46,24 @@ jobs:
             libfuse2 \
             libmagickwand-dev
 
+      # ── Locate ImageMagick shared libraries for bundling ──
+      - name: Locate ImageMagick libraries
+        id: magick_libs
+        run: |
+          # Find all libMagickWand and libMagickCore .so files
+          MAGICK_BINARIES=""
+          for lib in libMagickWand libMagickCore; do
+            for path in $(ldconfig -p | grep "$lib" | awk '{print $NF}' | sort -u); do
+              if [ -f "$path" ]; then
+                # Resolve symlinks to get the real file
+                real_path=$(readlink -f "$path")
+                MAGICK_BINARIES="$MAGICK_BINARIES --add-binary $real_path:."
+                echo "Found: $real_path"
+              fi
+            done
+          done
+          echo "magick_flags=$MAGICK_BINARIES" >> "$GITHUB_OUTPUT"
+
       # ── Build standalone binaries with PyInstaller ──
       - name: Build ShiftCursor with PyInstaller
         run: |
@@ -58,6 +76,7 @@ jobs:
             --hidden-import PySide6.QtSvg \
             --hidden-import win2xcur \
             --collect-all wand \
+            ${{ steps.magick_libs.outputs.magick_flags }} \
             shiftcursor_app.py
 
       # ── Create AppDir structure ──
@@ -96,6 +115,7 @@ jobs:
           HERE=${SELF%/*}
           export PATH="${HERE}/usr/bin:${PATH}"
           export LD_LIBRARY_PATH="${HERE}/usr/bin:${LD_LIBRARY_PATH}"
+          export MAGICK_HOME="${HERE}/usr/bin"
           exec "${HERE}/usr/bin/ShiftCursor" "$@"
           APPRUN
           chmod +x ShiftCursor.AppDir/AppRun
